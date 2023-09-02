@@ -1,0 +1,252 @@
+#$ TITLE: Nek Kwads Presets bundle
+#$ FIRMWARE_VERSION: 4.4
+#$ FIRMWARE_VERSION: 4.3
+#$ CATEGORY: BNF
+#$ STATUS: EXPERIMENTAL
+#$ KEYWORDS: kwads, presets, osd, modes, bnf, nek, bundle
+#$ AUTHOR: Nek
+#$ DISCUSSION: https://github.com/nekwebdev/firmware-presets
+#$ DESCRIPTION: Custom set of presets to setup common quad settings.
+#$ DESCRIPTION:
+#$ DESCRIPTION: Please carefully review the options above and tick any that are relevant.
+#$ DESCRIPTION:
+#$ DESCRIPTION: Still need to set craft and pilot name.
+#$ DESCRIPTION:
+#$ DESCRIPTION: PID tunes for AOS, add: https://github.com/ChrisRosser/firmware-presets branch "aos-rc"
+#$ DESCRIPTION:
+#$ DISCLAIMER: The information provided in these presets is for educational and entertainment purposes only. Betaflight makes no representations as to the safety or legality of the use of any information provided herein. End users assume all responsibility and liability for ensuring they comply with all relevant laws and regulations. Using these VTX tables may be in breach of your local RF laws. You as the end user must research and comply with your local regulations. In using these presets, the user assumes any and all liability associated with breaching local regulations.
+#$ FORCE_OPTIONS_REVIEW: TRUE
+
+# ------ OPIONS GO BELOW THIS LINE ------
+
+#$ OPTION_GROUP BEGIN: Base setup
+# -- Dshot Beacon and beeper --
+#$ OPTION BEGIN (CHECKED): Dshot beacon and beeper
+beacon RX_LOST
+beacon RX_SET
+#$ OPTION END
+
+# -- LED strip --
+#$ OPTION BEGIN (CHECKED): Disable LED strip
+feature -LED_STRIP
+#$ OPTION END
+
+# -- Aux modes --
+#$ OPTION BEGIN (CHECKED): Set modes (aux1 arm hi, aux2 prearm hi, aux3 beeper low, turtle high)
+aux 0 0 0 1975 2100 0 0
+aux 1 13 2 900 1100 0 0
+aux 2 35 2 900 1025 0 0
+aux 3 36 1 1975 2100 0 0
+#$ OPTION END
+
+# -- Startup and arming --
+#$ OPTION BEGIN (CHECKED): Arm at any angle
+set small_angle = 180
+#$ OPTION END
+
+# -- Prop direction --
+#$ OPTION BEGIN (CHECKED): Props out (check motor direction!)
+set yaw_motors_reversed = ON
+#$ OPTION END
+
+# -- Blackbox debug mode --
+#$ OPTION BEGIN (CHECKED): Set blackbox debug mode to GYRO_SCALED
+set debug_mode = GYRO_SCALED
+#$ OPTION END
+#$ OPTION_GROUP END
+
+# -- Birectional Dshot --
+#$ OPTION BEGIN (UNCHECKED): Bidirectional Dshot
+set dshot_bidir = ON
+set dshot_idle_value = 300
+#$ OPTION END
+
+#$ OPTION_GROUP BEGIN: Configure Serial RX UART (choose only one, probably not uart 1)
+
+# -- Serial UART --
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 1 
+serial 0 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 2 
+serial 1 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 3 
+serial 2 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 4
+serial 3 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 5 
+serial 4 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 6 
+serial 5 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure serial rx on uart 7
+serial 6 64 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION_GROUP END
+
+# --- RC link ---
+#$ OPTION_GROUP BEGIN: Configure RC link
+
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz base
+#$ INCLUDE: presets/4.3/rc_link/defaults.txt
+# basic requirements for ExpressLRS 
+feature RX_SERIAL
+set serialrx_provider = CRSF
+# Enable telemetry
+feature TELEMETRY
+# 500hz default ExpressLRS settings:
+set feedforward_averaging = 2_POINT
+set feedforward_smooth_factor = 65
+set feedforward_jitter_factor = 5
+#$ OPTION END
+
+# sharp handling for racing (25 of auto RC smoothing = 290hz RC smoothing):
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz Race
+set feedforward_smooth_factor = 65
+set feedforward_jitter_factor = 3
+set feedforward_boost = 18
+set rc_smoothing_auto_factor = 25
+set rc_smoothing_auto_factor_throttle = 25
+#$ OPTION END
+
+# at 500hz auto smoothing of 120 is close to 60hz:
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz Freestyle
+set feedforward_jitter_factor = 7
+set rc_smoothing_auto_factor = 120
+#$ OPTION END
+
+# stronger smoothing for HD freestyle (not for racing):
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz HD Freestyle
+set feedforward_smooth_factor = 65
+set feedforward_jitter_factor = 9
+set rc_smoothing_auto_factor = 250
+set rc_smoothing_setpoint_cutoff = 25
+set rc_smoothing_feedforward_cutoff = 25
+#$ OPTION END
+
+# smooth Cinematic (not for racing):
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz Cinematic
+set feedforward_smooth_factor = 70
+set feedforward_jitter_factor = 11
+set rc_smoothing_auto_factor = 250
+set rc_smoothing_auto_factor_throttle = 250
+set rc_smoothing_setpoint_cutoff = 12
+set rc_smoothing_feedforward_cutoff = 12
+set rc_smoothing_throttle_cutoff = 20
+#$ OPTION END
+
+# ultra smooth Cinematic (not for racing):
+#$ OPTION BEGIN (UNCHECKED): ELRS 500hz Ultra Cinematic
+set feedforward_smooth_factor = 75
+set feedforward_jitter_factor = 13
+set rc_smoothing_auto_factor = 250
+set rc_smoothing_auto_factor_throttle = 250
+set rc_smoothing_setpoint_cutoff = 6
+set rc_smoothing_feedforward_cutoff = 6
+set rc_smoothing_throttle_cutoff = 20
+#$ OPTION END
+
+# per cell or whole pack voltage readings:
+#$ OPTION BEGIN (UNCHECKED): Single Cell values
+set report_cell_voltage = ON
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Whole pack values
+set report_cell_voltage = OFF
+#$ OPTION END
+
+#$ OPTION_GROUP END
+
+#$ OPTION_GROUP BEGIN: Rates
+
+#$ OPTION BEGIN (UNCHECKED): Cinematic, Actual, Centre = 2
+set rates_type = ACTUAL
+set roll_rc_rate = 2
+set pitch_rc_rate = 2
+set yaw_rc_rate = 2
+set roll_expo = 0
+set pitch_expo = 0
+set yaw_expo = 0
+set roll_srate = 50
+set pitch_srate = 50
+set yaw_srate = 50
+#$ OPTION END
+
+#$ OPTION_GROUP END
+
+#$ OPTION_GROUP BEGIN: Apply VTX and OSD settings
+
+# -- VTX configuration --
+#$ OPTION BEGIN (UNCHECKED): Setup OSD for DJI systems
+set osd_displayport_device = MSP
+set vcd_video_system = HD
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 1 
+serial 0 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 2 
+serial 1 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 3 
+serial 2 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 4
+serial 3 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 5 
+serial 4 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 6 
+serial 5 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 7
+serial 6 131073 115200 57600 0 115200
+#$ OPTION END
+
+# -- OSD configuration --
+#$ OPTION BEGIN (UNCHECKED): Configure DJI OSD layout
+set osd_warn_bitmask = 57343
+set osd_cap_alarm = 550
+set osd_alt_alarm = 400
+set osd_rssi_pos = 230
+set osd_link_quality_pos = 6434
+set osd_rssi_dbm_pos = 6402
+set osd_tim_2_pos = 2071
+set osd_remaining_time_estimate_pos = 2648 
+set osd_current_pos = 7436
+set osd_mah_drawn_pos = 7470
+set osd_craft_name_pos = 2048
+set osd_gps_speed_pos = 100
+set osd_gps_lon_pos = 67
+set osd_gps_lat_pos = 35
+set osd_gps_sats_pos = 4
+set osd_home_dir_pos = 9
+set osd_home_dist_pos = 12
+set osd_flight_dist_pos = 79
+set osd_compass_bar_pos = 41
+set osd_altitude_pos = 131
+set osd_warnings_pos = 6613
+set osd_avg_cell_voltage_pos = 6767
+set osd_battery_usage_pos = 2676
+set osd_disarmed_pos = 6198
+set osd_rtc_date_time_pos = 8
+set osd_stat_bitmask = 10663652
+#$ OPTION END
+#$ OPTION_GROUP END
