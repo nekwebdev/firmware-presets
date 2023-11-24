@@ -32,11 +32,10 @@ feature -LED_STRIP
 #$ OPTION END
 
 # -- Aux modes --
-#$ OPTION BEGIN (CHECKED): Set modes (aux1 arm hi, aux2 prearm hi, aux3 beeper low, turtle high)
-aux 0 0 0 1975 2100 0 0
-aux 1 13 2 900 1100 0 0
-aux 2 35 2 900 1025 0 0
-aux 3 36 1 1975 2100 0 0
+#$ OPTION BEGIN (CHECKED): Set modes (aux1 arm hi, aux2 beeper low, turtle high)
+aux 0 0 0 1950 2100 0 0
+aux 1 13 1 900 1050 0 0
+aux 2 35 1 1950 2100 0 0
 #$ OPTION END
 
 # -- Startup and arming --
@@ -53,13 +52,13 @@ set yaw_motors_reversed = ON
 #$ OPTION BEGIN (CHECKED): Set blackbox debug mode to GYRO_SCALED
 set debug_mode = GYRO_SCALED
 #$ OPTION END
-#$ OPTION_GROUP END
 
 # -- Birectional Dshot --
-#$ OPTION BEGIN (UNCHECKED): Bidirectional Dshot
+#$ OPTION BEGIN (CHECKED): Bidirectional Dshot
 set dshot_bidir = ON
 set dshot_idle_value = 300
 #$ OPTION END
+#$ OPTION_GROUP END
 
 #$ OPTION_GROUP BEGIN: Configure Serial RX UART (choose only one, probably not uart 1)
 
@@ -108,6 +107,9 @@ feature TELEMETRY
 set feedforward_averaging = 2_POINT
 set feedforward_smooth_factor = 65
 set feedforward_jitter_factor = 5
+# Enable OSD rssi alarms
+set osd_rssi_dbm_alarm = -60
+set osd_link_quality_alarm = 80
 #$ OPTION END
 
 # sharp handling for racing (25 of auto RC smoothing = 290hz RC smoothing):
@@ -169,6 +171,19 @@ set report_cell_voltage = OFF
 
 #$ OPTION_GROUP BEGIN: Rates
 
+#$ OPTION BEGIN (UNCHECKED): Min Chan ACTUAL rates
+set rates_type = ACTUAL
+set roll_rc_rate = 22
+set pitch_rc_rate = 18
+set yaw_rc_rate = 16
+set roll_expo = 56
+set pitch_expo = 56
+set yaw_expo = 56
+set roll_srate = 75
+set pitch_srate = 60
+set yaw_srate = 53
+#$ OPTION END
+
 #$ OPTION BEGIN (UNCHECKED): Cinematic, Actual, Centre = 2
 set rates_type = ACTUAL
 set roll_rc_rate = 2
@@ -188,36 +203,9 @@ set yaw_srate = 50
 
 # -- VTX configuration --
 #$ OPTION BEGIN (UNCHECKED): Setup OSD for DJI systems
+feature OSD
 set osd_displayport_device = MSP
 set vcd_video_system = HD
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 1 
-serial 0 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 2 
-serial 1 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 3 
-serial 2 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 4
-serial 3 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 5 
-serial 4 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 6 
-serial 5 131073 115200 57600 0 115200
-#$ OPTION END
-
-#$ OPTION BEGIN (UNCHECKED): use displayport and MSP VTX on uart 7
-serial 6 131073 115200 57600 0 115200
 #$ OPTION END
 
 # -- OSD configuration --
@@ -226,13 +214,14 @@ set osd_warn_bitmask = 57343
 set osd_cap_alarm = 550
 set osd_alt_alarm = 400
 set osd_rssi_pos = 230
-set osd_link_quality_pos = 6434
-set osd_rssi_dbm_pos = 6402
-set osd_tim_2_pos = 2071
-set osd_remaining_time_estimate_pos = 2648 
-set osd_current_pos = 7436
-set osd_mah_drawn_pos = 7470
-set osd_craft_name_pos = 2048
+set osd_link_quality_pos = 2061
+set osd_rssi_dbm_pos = 2055
+set osd_tim_2_pos = 2048
+set osd_remaining_time_estimate_pos = 2648
+set osd_throttle_pos = 3376
+set osd_current_pos = 3150
+set osd_mah_drawn_pos = 3183
+set osd_craft_name_pos = 576
 set osd_gps_speed_pos = 100
 set osd_gps_lon_pos = 67
 set osd_gps_lat_pos = 35
@@ -242,11 +231,40 @@ set osd_home_dist_pos = 12
 set osd_flight_dist_pos = 79
 set osd_compass_bar_pos = 41
 set osd_altitude_pos = 131
-set osd_warnings_pos = 6613
-set osd_avg_cell_voltage_pos = 6767
+set osd_warnings_pos = 2613
+set osd_avg_cell_voltage_pos = 3087
 set osd_battery_usage_pos = 2676
-set osd_disarmed_pos = 6198
+set osd_disarmed_pos = 2070
 set osd_rtc_date_time_pos = 8
 set osd_stat_bitmask = 10663652
 #$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 1 
+serial 0 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 2 
+serial 1 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 3 
+serial 2 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 4
+serial 3 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 5 
+serial 4 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 6 
+serial 5 131073 115200 57600 0 115200
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): Configure displayport and MSP VTX on uart 7
+serial 6 131073 115200 57600 0 115200
+#$ OPTION END
+
 #$ OPTION_GROUP END
