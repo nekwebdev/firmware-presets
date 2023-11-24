@@ -58,6 +58,13 @@ set debug_mode = GYRO_SCALED
 set dshot_bidir = ON
 set dshot_idle_value = 300
 #$ OPTION END
+
+# -- VBat sag compensation --
+#$ OPTION BEGIN (CHECKED): Set vbat sag compensation
+set vbat_sag_compensation = 100
+set vbat_sag_lpf_period = 2
+#$ OPTION END
+
 #$ OPTION_GROUP END
 
 #$ OPTION_GROUP BEGIN: Configure Serial RX UART (choose only one, probably not uart 1)
@@ -94,7 +101,7 @@ serial 6 64 115200 57600 0 115200
 #$ OPTION_GROUP END
 
 # --- RC link ---
-#$ OPTION_GROUP BEGIN: Configure RC link
+#$ OPTION_GROUP BEGIN: Configure RC link (choose "base" and options)
 
 #$ OPTION BEGIN (UNCHECKED): ELRS 500hz base
 #$ INCLUDE: presets/4.3/rc_link/defaults.txt
@@ -110,6 +117,11 @@ set feedforward_jitter_factor = 5
 # Enable OSD rssi alarms
 set osd_rssi_dbm_alarm = -60
 set osd_link_quality_alarm = 80
+#$ OPTION END
+
+#$ OPTION BEGIN (UNCHECKED): No deadband
+set deadband = 0
+set yaw_deadband = 0
 #$ OPTION END
 
 # sharp handling for racing (25 of auto RC smoothing = 290hz RC smoothing):
