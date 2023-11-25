@@ -101,7 +101,7 @@ serial 6 64 115200 57600 0 115200
 #$ OPTION_GROUP END
 
 # --- RC link ---
-#$ OPTION_GROUP BEGIN: Configure RC link (choose "base" and options)
+#$ OPTION_GROUP BEGIN: Configure RC link (choose base and options)
 
 #$ OPTION BEGIN (UNCHECKED): ELRS 500hz base
 #$ INCLUDE: presets/4.3/rc_link/defaults.txt
