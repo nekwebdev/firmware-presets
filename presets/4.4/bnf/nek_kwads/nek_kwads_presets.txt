@@ -114,6 +114,9 @@ feature TELEMETRY
 set feedforward_averaging = 2_POINT
 set feedforward_smooth_factor = 65
 set feedforward_jitter_factor = 5
+# Enable OSD rssi alarms
+set osd_rssi_dbm_alarm = -95
+set osd_link_quality_alarm = 50
 #$ OPTION END
 
 #$ OPTION BEGIN (UNCHECKED): No deadband
@@ -176,13 +179,6 @@ set report_cell_voltage = ON
 set report_cell_voltage = OFF
 #$ OPTION END
 
-#$ OPTION BEGIN (UNCHECKED): Use ELRS RSSI
-set rssi_channel = 16
-# Enable OSD rssi alarms
-set osd_rssi_alarm = 20
-set osd_link_quality_alarm = 50
-#$ OPTION END
-
 #$ OPTION_GROUP END
 
 #$ OPTION_GROUP BEGIN: Rates
@@ -226,12 +222,13 @@ set vcd_video_system = HD
 
 # -- OSD configuration --
 #$ OPTION BEGIN (UNCHECKED): Configure DJI OSD layout
-set osd_warn_bitmask = 32767
-set osd_cap_alarm = 550
+set osd_warn_bitmask = 57343
+set osd_stat_bitmask = 10663652
+set osd_cap_alarm = 850
 set osd_alt_alarm = 400
-set osd_rssi_pos = 2057
+set osd_rssi_pos = 230
 set osd_link_quality_pos = 2061
-set osd_rssi_dbm_pos = 7
+set osd_rssi_dbm_pos = 2055
 set osd_tim_2_pos = 2048
 set osd_remaining_time_estimate_pos = 2648
 set osd_throttle_pos = 3376
