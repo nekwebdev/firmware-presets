@@ -6,7 +6,7 @@
 #$ AUTHOR: sugarK
 
 #$ DESCRIPTION: Sets LED settings to suit used VTX channels used by the Quaddiction TinyTrainer spec team
-
+#$ WARNING: This preset will not work with HDzero firmware 1.30 or newer
 
 # --- LED Designations ---
 
