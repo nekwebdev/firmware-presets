@@ -1,5 +1,7 @@
-NAVL1_PERIOD: This defaults to 25, which is a very conservative value designed to cope with badly tuned airframes. It controls how sharply the aircraft will turn in automatic modes (such as AUTO, RTL and LOITER). Most aircraft should use a significantly lower value. Once you have completed a successful autotune of roll and pitch values you should drop NAVL1_PERIOD to 18 if you have not tuned it yet. To tune beyond that level you should fly a rectangular mission in AUTO mode and adjust NAVL1_PERIOD down by 1 at a time until the aircraft turns at a rate you are happy with, and does not “wag its tail” in flight.
-You can additionally adjust the NAVL1_DAMPING and WP_RADIUS for further tuning.
+## NAVL1_PERIOD 
+
+To tune beyond that level you should fly a rectangular mission in AUTO mode and adjust NAVL1_PERIOD down by 1 at a time until the aircraft turns at a rate you are happy with, and does not “wag its tail” in flight.
+You can additionally adjust the `NAVL1_DAMPING` and `WP_RADIUS` for further tuning.
 
 Without an airspeed sensor, both the pitch trim and the TRIM_THROTTLE parameter would need to be changed appropriately for the desired mid-stick cruise speed.
 
@@ -43,14 +45,34 @@ Setting up KFF_RDDRMIX for Coordinated Turns¶
 Rapidly roll the model from maximum bank angle in one direction to maximum bank angle in the opposite direction in FBWA. Do this several times going in each direction and observe the yawing motion of the model. If as the wings pass through level the nose is yawed in the opposite direction to the roll (for example when rolling from left to right bank, the nose points left) then increase the value of KFF_RDDRMIX gain until the yaw goes away. Do not use a value larger than 1. Conversely, lower it if the nose is yawing into the turn. The default value for KFF_RDDRMIX is usually close
 
 
-WATT_MAX:
 
-TUNE SESH:
+# Autotune
 
-Figure out:
-Autotune level 7 w/yaw
-PTCH2SRV_RLL: FBWA turn flat, if loose alt increase by 0.05
-WP_LOITER_RAD: check if easy to hokd radius, set at 80
+## AUTOTUNE_LEVEL
+
+Start with 6, try 5/7/8 to see what works best for the purpose
+
+## TRIM_PITCH_CD
+
+Calibrate level with thrust angle, most likely increase `TRIM_PITCH_CD`.
+Setup the desired cruising speed and throttle in **FBWA**. This can be adjusted using the `TRIM_PITCH_CD` parameter to get level flight at the desired throttle level. If cruising speed is too great, lower throttle and increase `TRIM_PITCH_CD` until altitude is constant, or vice-a-versa. Set the `TRIM_THROTTLE` to that throttle value.
+*NOTE THE AIRSPEED at that cruise speed.*
+Fly in **CRUISE**, check logs for `ATT.Pitch` and ensure it is zero.
+
+## PTCH2SRV_RLL
+
+In **FBWA** hard constant turn, if loose alt increase by 0.05
+
+## WP_LOITER_RAD
+
+Find a radius where it is roughly over half of `LIM_ROLL_CD`?
+
+## TECS_CLMB_MAX / LIM_PITCH_MAX
+
+In **FBWA** and ideally at low battery (3.4/3.5V), do a full throttle full back stick climb (you can also lower this throttle value with THR_MAX if full throttle seems excessive). Set `LIM_PITCH_MAX` such that you maintain close to the cruising speed you noted. Note the steady state climb rate, and set `TECS_CLMB_MAX` to 80% of that value for margin if not at low battery. You can set lower pilot demanded climb rates with `FBWB_CLIMB_RATE`, but you want TECS to have the maximum capability of you aircraft for sudden altitude demand changes, like switching to RTL, to maximize its climbing ability in order to get out of bad situations.
+
+
+
 
 Plan square mission:
 Observe the behaviour of the plane in the turns. If it turns too slowly then reduce NAVL1_PERIOD by 5. If it is “weaving” after a turn then increase NAVL1_PERIOD by 1 or 2
@@ -58,9 +80,9 @@ Observe the behaviour of the plane in the turns. If it turns too slowly then red
 If you are tuning for maximum performance, once you have completed the tuning of NAVL1_PERIOD you can increment NAVL1_PERIOD by 1 and then modify NAVL1_DAMPING in steps of 0.05 to get the response you want. Do not decrease NAVL1_DAMPING too much - it is unlikely you will need a value below 0.6.
 
 
-Setup the desired cruising speed and throttle in FBWA. This can be adjusted using the TRIM_PITCH_CD parameter to get level flight at the desired throttle level. If cruising speed is too great, lower throttle and increase TRIM_PITCH_CD until altitude is constant, or vice-a-versa. Set the TRIM_THROTTLE to that throttle value.
 
-In FBWA, do a full throttle full back stick climb (you can also lower this throttle value with THR_MAX if full throttle seems excessive). Set LIM_PITCH_MAX such that you maintain close to the cruising speed, or at least not less than a safe flying speed. Note the steady state climb rate, and set TECS_CLMB_MAX to 80% of that value for margin at low battery. You can set lower pilot demanded climb rates with FBWB_CLIMB_RATE, but you want TECS to have the maximum capability of you aircraft for sudden altitude demand changes, like switching to RTL, to maximize its climbing ability in order to get out of bad situations.
+
+
 
 Set TECS_PITCH_MAX to LIM_PITCH_MAX.
 
@@ -83,10 +105,3 @@ once set at low bat again do a max thr max climb and note climb rate. Set TECS_C
 
 Cut throttle and glide down, note sink rate. Set TECS_SINK_MIN
 TECS_SINK_MAX (in metres/second). If this value is too large, the aircraft can over-speed on descent. This should be set to a value that can be achieved without exceeding the lower pitch angle limit and without exceeding ARSPD_FBW_MAX.
-
-
-Q_TILT_FIX_ANGLE,15.0000
-Q_TILT_FIX_GAIN,0.1000
-ONESHOT_MASK,496.0000
-SCHED_LOOP_RATE,400.0000
-SERVO_RATE,400.0000
